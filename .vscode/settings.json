@@ -1,0 +1,19 @@
+{
+  // editor
+  "editor.wordWrap": "on",
+  "editor.tabSize": 2,
+  "editor.minimap.enabled": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always"
+  },
+
+  // prisma
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+
+  // others
+  "explorer.compactFolders": false
+}
