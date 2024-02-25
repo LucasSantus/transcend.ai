@@ -20,9 +20,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { TranslateFormData, translateFormSchema } from "@/validation/translate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowRightLeft } from "lucide-react";
+import { ArrowRightLeft, Languages } from "lucide-react";
 import Image from "next/image";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface ChatProps {}
 
@@ -38,7 +40,7 @@ export function Chat({}: ChatProps): JSX.Element {
 
         return response;
       } catch (error) {
-        return null;
+        return "";
       }
     },
   });
@@ -46,24 +48,37 @@ export function Chat({}: ChatProps): JSX.Element {
   const form = useForm<TranslateFormData>({
     resolver: zodResolver(translateFormSchema),
     defaultValues: {
-      from: "pt-br",
       to: "en-us",
       textToTranslate: "",
     },
   });
 
-  const { handleSubmit } = form;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = form;
 
   async function onHandleSubmit(values: TranslateFormData) {
     mutate(values);
   }
 
+  useEffect(() => {
+    if (errors) {
+      const array = Object.entries(errors).map(([chave, valor]) => ({
+        chave,
+        valor,
+      }));
+
+      array.map((item) => toast.error(item.valor.message));
+    }
+  }, [errors]);
+
   return (
     <div className="container">
       <div className="space-y-5 p-6">
-        <div className="pointer-events-none flex select-none items-center gap-1">
-          <Image src="/translate-logo.svg" alt="" width={60} height={60} />
-          <span className="font-mono text-2xl font-medium">Translator AI</span>
+        <div className="flex items-center gap-1">
+          <Image src="/images/logo.svg" alt="" width={56} height={56} />
+          <span className="font-mono text-xl font-medium">Transcend AI</span>
         </div>
         <div className="grid">
           <Form {...form}>
@@ -77,7 +92,7 @@ export function Chat({}: ChatProps): JSX.Element {
                     control={form.control}
                     name="from"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex items-end gap-2">
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
@@ -112,12 +127,12 @@ export function Chat({}: ChatProps): JSX.Element {
                     <FormItem>
                       <FormControl>
                         <Textarea
-                          className="h-80 w-full resize-none border-none bg-zinc-900 text-zinc-400 ring ring-zinc-800"
+                          className="h-80 w-full resize-none border-none bg-primary-foreground text-muted-foreground ring ring-zinc-800"
                           placeholder="Escreva o texto aqui para tradução"
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      {/* <FormMessage /> */}
                     </FormItem>
                   )}
                 />
@@ -144,17 +159,22 @@ export function Chat({}: ChatProps): JSX.Element {
                             <SelectItem value="en-us">Inglês</SelectItem>
                           </SelectContent>
                         </Select>
-                        <FormMessage />
+                        {/* <FormMessage /> */}
                       </FormItem>
                     )}
                   />
 
-                  <Button variant="secondary">Traduzir</Button>
+                  <Button
+                    variant="secondary"
+                    icon={<Languages className="size-4" />}
+                  >
+                    Traduzir
+                  </Button>
                 </div>
 
                 <Textarea
-                  className="h-80 w-full resize-none border-none bg-zinc-900 text-zinc-400"
-                  value={String(data)}
+                  className="h-80 w-full resize-none border-none bg-primary-foreground text-muted-foreground"
+                  value={data}
                   isLoading={isPending}
                   readOnly
                 />

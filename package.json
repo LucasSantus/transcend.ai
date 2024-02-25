@@ -1,7 +1,9 @@
 {
-  "name": "translator-ai",
-  "version": "0.1.0",
+  "name": "transcend-ai",
+  "version": "1.0.0",
   "private": true,
+  "author": "Lucas Eduardo de Oliveira Santos",
+  "description": "O Transcend AI é uma aplicação simples e eficaz que utiliza a inteligência artificial gemini para traduzir textos de forma rápida e precisa. Com uma interface intuitiva, o Transcend AI torna a tradução de diferentes idiomas acessível a todos, permitindo uma comunicação global sem complicações.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

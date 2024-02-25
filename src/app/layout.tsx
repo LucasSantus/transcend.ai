@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "scroll-smooth bg-zinc-950 text-zinc-50 antialiased",
+          "scroll-smooth bg-background text-foreground antialiased",
           inter.className,
         )}
       >
