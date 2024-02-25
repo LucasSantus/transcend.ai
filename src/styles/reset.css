@@ -1,0 +1,84 @@
+/* CSS Reset */
+
+/* box sizing border-box by default on all elements */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+}
+
+/* remove text decoration */
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+
+  /* soft scroll */
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased !important;
+}
+
+/* remove list-style from unordered and ordered lists */
+ul,
+ol {
+  list-style: none;
+}
+
+/* remove button styles */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+
+/* remove default button appearance */
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* remove automatic text breaks on text-type inputs */
+input[type="text"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+textarea {
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+/* remove arrow of inputs type number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* remove default browser focus styles */
+:focus {
+  outline: none;
+}

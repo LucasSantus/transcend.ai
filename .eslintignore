@@ -1,0 +1,6 @@
+node_modules
+.gitignore
+*.config*
+.vscode
+build
+.next

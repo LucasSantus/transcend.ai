@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn("bg-zinc-950 text-zinc-50 antialiased", inter.className)}
+        className={cn("bg-zinc-950 text-zinc-50 antialiased scroll-smooth", inter.className)}
       >
         {children}
       </body>
