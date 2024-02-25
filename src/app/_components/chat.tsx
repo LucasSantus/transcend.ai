@@ -1,5 +1,6 @@
 "use client";
 
+import { translateServer } from "@/actions/translate";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,36 +19,43 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { TranslateFormData, translateFormSchema } from "@/validation/translate";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { ArrowRightLeft } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface ChatProps {}
 
 export function Chat({}: ChatProps): JSX.Element {
-  const [translate, setTranslate] = useState<string>("");
-  const [apiData, setApiData] = useState<string>("");
+  const {
+    mutate,
+    data = "",
+    isPending,
+  } = useMutation({
+    mutationFn: async (values: TranslateFormData) => {
+      try {
+        const response = await translateServer(values);
+
+        return response;
+      } catch (error) {
+        return null;
+      }
+    },
+  });
 
   const form = useForm<TranslateFormData>({
     resolver: zodResolver(translateFormSchema),
     defaultValues: {
       from: "pt-br",
       to: "en-us",
+      textToTranslate: "",
     },
   });
 
   const { handleSubmit } = form;
 
-  async function onHandleSubmit({}: TranslateFormData) {
-    const response = await fetch("http://localhost:3000/api/translate", {
-      method: "POST",
-      body: JSON.stringify({ translate }),
-    });
-
-    const text = await response.text();
-
-    setApiData(text);
+  async function onHandleSubmit(values: TranslateFormData) {
+    mutate(values);
   }
 
   return (
@@ -97,12 +105,21 @@ export function Chat({}: ChatProps): JSX.Element {
                   />
                 </div>
 
-                <Textarea
-                  className="h-80 w-full resize-none border-none bg-zinc-900 text-zinc-400 ring ring-zinc-800"
-                  placeholder="Escreva o texto aqui para tradução"
-                  onChange={(event) => {
-                    setTranslate(event.target.value);
-                  }}
+                <FormField
+                  control={form.control}
+                  name="textToTranslate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Textarea
+                          className="h-80 w-full resize-none border-none bg-zinc-900 text-zinc-400 ring ring-zinc-800"
+                          placeholder="Escreva o texto aqui para tradução"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </div>
 
@@ -137,7 +154,8 @@ export function Chat({}: ChatProps): JSX.Element {
 
                 <Textarea
                   className="h-80 w-full resize-none border-none bg-zinc-900 text-zinc-400"
-                  value={apiData}
+                  value={String(data)}
+                  isLoading={isPending}
                   readOnly
                 />
               </div>

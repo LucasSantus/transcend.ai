@@ -1,9 +1,10 @@
-
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./../styles/globals.css";
 import "./../styles/reset.css";
+import { NoScript } from "./no-script";
+import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +21,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn("bg-zinc-950 text-zinc-50 antialiased scroll-smooth", inter.className)}
+        className={cn(
+          "scroll-smooth bg-zinc-950 text-zinc-50 antialiased",
+          inter.className,
+        )}
       >
-        {children}
+        <Providers>
+          <NoScript />
+          {children}
+        </Providers>
       </body>
     </html>
   );
