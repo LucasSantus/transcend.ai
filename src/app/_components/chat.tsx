@@ -17,14 +17,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { TranslateFormData, translateFormSchema } from "@/validation/translate";
+import {
+  TranslateFormData,
+  languages,
+  translateFormSchema,
+} from "@/validation/translate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowRightLeft, Languages } from "lucide-react";
 import Image from "next/image";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 interface ChatProps {}
 
@@ -40,6 +42,8 @@ export function Chat({}: ChatProps): JSX.Element {
 
         return response;
       } catch (error) {
+        // toast.error(error.message);
+
         return "";
       }
     },
@@ -53,29 +57,17 @@ export function Chat({}: ChatProps): JSX.Element {
     },
   });
 
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = form;
+  const { handleSubmit, setValue, watch } = form;
+
+  const [from, to] = watch(["from", "to"]);
 
   async function onHandleSubmit(values: TranslateFormData) {
     mutate(values);
   }
 
-  useEffect(() => {
-    if (errors) {
-      const array = Object.entries(errors).map(([chave, valor]) => ({
-        chave,
-        valor,
-      }));
-
-      array.map((item) => toast.error(item.valor.message));
-    }
-  }, [errors]);
-
   return (
     <div className="container">
-      <div className="space-y-5 p-6">
+      <div className="space-y-4 p-6 md:space-y-6">
         <div className="flex items-center gap-1">
           <Image src="/images/logo.svg" alt="" width={56} height={56} />
           <span className="font-mono text-xl font-medium">Transcend AI</span>
@@ -84,18 +76,18 @@ export function Chat({}: ChatProps): JSX.Element {
           <Form {...form}>
             <form
               onSubmit={handleSubmit(onHandleSubmit)}
-              className="grid min-h-[60vh] grid-cols-2 gap-3"
+              className="grid min-h-[60vh] grid-cols-1 gap-3 md:grid-cols-2"
             >
               <div className="space-y-3">
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-2">
                   <FormField
                     control={form.control}
                     name="from"
                     render={({ field }) => (
-                      <FormItem className="flex items-end gap-2">
+                      <FormItem className="flex flex-col truncate md:flex-row md:items-end md:gap-2">
                         <Select
                           onValueChange={field.onChange}
-                          defaultValue={field.value}
+                          value={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -103,8 +95,15 @@ export function Chat({}: ChatProps): JSX.Element {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="pt-br">Português</SelectItem>
-                            <SelectItem value="en-us">Inglês</SelectItem>
+                            {languages.map(({ key, label }) => (
+                              <SelectItem
+                                key={key}
+                                value={key}
+                                disabled={to === key}
+                              >
+                                {label}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -117,6 +116,11 @@ export function Chat({}: ChatProps): JSX.Element {
                     icon={<ArrowRightLeft />}
                     type="button"
                     size="icon"
+                    onClick={() => {
+                      setValue("from", to, { shouldValidate: true });
+                      setValue("to", from, { shouldValidate: true });
+                    }}
+                    disabled={!to || !from}
                   />
                 </div>
 
@@ -127,12 +131,12 @@ export function Chat({}: ChatProps): JSX.Element {
                     <FormItem>
                       <FormControl>
                         <Textarea
-                          className="h-80 w-full resize-none border-none bg-primary-foreground text-muted-foreground ring ring-zinc-800"
+                          className="h-80 w-full resize-none border-none bg-primary-foreground text-muted-foreground"
                           placeholder="Escreva o texto aqui para tradução"
                           {...field}
                         />
                       </FormControl>
-                      {/* <FormMessage /> */}
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -144,10 +148,10 @@ export function Chat({}: ChatProps): JSX.Element {
                     control={form.control}
                     name="to"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex items-end gap-2 truncate">
                         <Select
                           onValueChange={field.onChange}
-                          defaultValue={field.value}
+                          value={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -155,29 +159,47 @@ export function Chat({}: ChatProps): JSX.Element {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="pt-br">Português</SelectItem>
-                            <SelectItem value="en-us">Inglês</SelectItem>
+                            {languages.map(({ key, label }) => (
+                              <SelectItem
+                                key={key}
+                                value={key}
+                                disabled={from === key}
+                              >
+                                {label}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
-                        {/* <FormMessage /> */}
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                  <Button
-                    variant="secondary"
-                    icon={<Languages className="size-4" />}
-                  >
-                    Traduzir
-                  </Button>
+                  <div className="hidden md:block">
+                    <Button
+                      variant="secondary"
+                      icon={<Languages className="size-4" />}
+                    >
+                      Traduzir
+                    </Button>
+                  </div>
                 </div>
 
                 <Textarea
-                  className="h-80 w-full resize-none border-none bg-primary-foreground text-muted-foreground"
+                  className="h-80 w-full resize-none border-none bg-primary-foreground text-muted-foreground !ring-0"
                   value={data}
                   isLoading={isPending}
                   readOnly
                 />
+
+                <div className="grid md:hidden">
+                  <Button
+                    variant="secondary"
+                    icon={<Languages className="size-3" />}
+                  >
+                    Traduzir
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>

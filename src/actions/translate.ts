@@ -16,6 +16,8 @@ export async function translateServer(values: TranslateFormData) {
     const text = await response.text();
     return text;
   } catch (error) {
+    console.error(error);
+
     throw new Error("Ocorreu um erro ao tentar realizar a ação");
   }
 }

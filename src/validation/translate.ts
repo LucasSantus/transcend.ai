@@ -1,13 +1,26 @@
 import { z } from "zod";
 
+export const languages = [
+  {
+    key: "pt-br",
+    label: "Português",
+  },
+  {
+    key: "en-us",
+    label: "Inglês",
+  },
+];
+
+// Função para criar um schema enum com base em um array de valores
+const createEnumSchema = (values: any) =>
+  z.enum(values, {
+    required_error: "Selecione um item!",
+  });
+
 export const translateFormSchema = z
   .object({
-    from: z.enum(["pt-br", "en-us"], {
-      required_error: "Selecione uma linguagem!",
-    }),
-    to: z.enum(["pt-br", "en-us"], {
-      required_error: "Selecione uma linguagem!",
-    }),
+    from: createEnumSchema(languages.map((language) => language.key)),
+    to: createEnumSchema(languages.map((language) => language.key)),
     textToTranslate: z
       .string({
         required_error: "Insira o texto para tradução!",
