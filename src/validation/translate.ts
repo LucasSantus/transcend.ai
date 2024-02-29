@@ -9,6 +9,30 @@ export const languages = [
     key: "en-us",
     label: "Inglês",
   },
+  {
+    key: "fr",
+    label: "Francês",
+  },
+  {
+    key: "es",
+    label: "Espanhol",
+  },
+  {
+    key: "de",
+    label: "Alemão",
+  },
+  {
+    key: "zh-cn",
+    label: "Chinês Simplificado",
+  },
+  {
+    key: "ja",
+    label: "Japonês",
+  },
+  {
+    key: "ko",
+    label: "Coreano",
+  },
 ];
 
 // Função para criar um schema enum com base em um array de valores

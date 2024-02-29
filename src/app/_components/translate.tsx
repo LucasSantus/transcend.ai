@@ -34,8 +34,7 @@ export function TranslateForm(): JSX.Element {
     defaultValues: {
       from: "pt-br",
       to: "en-us",
-      prompt:
-        "O sol brilhava intensamente no céu azul, iluminando o campo verdejante à minha frente.",
+      prompt: "",
     },
   });
 
