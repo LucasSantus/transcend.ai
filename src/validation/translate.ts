@@ -21,7 +21,7 @@ export const translateFormSchema = z
   .object({
     from: createEnumSchema(languages.map((language) => language.key)),
     to: createEnumSchema(languages.map((language) => language.key)),
-    textToTranslate: z
+    prompt: z
       .string({
         required_error: "Insira o texto para tradução!",
       })

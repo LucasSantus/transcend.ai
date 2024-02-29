@@ -1,9 +1,5 @@
-import { Chat } from "../_components/chat";
+import { TranslateForm } from "../_components/translate";
 
 export default function Home() {
-  return (
-    <main>
-      <Chat />
-    </main>
-  );
+  return <TranslateForm />;
 }

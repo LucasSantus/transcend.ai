@@ -1,6 +1,5 @@
 "use client";
 
-import { translateServer } from "@/actions/translate";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,46 +22,45 @@ import {
   translateFormSchema,
 } from "@/validation/translate";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useCompletion } from "ai/react";
 import { ArrowRightLeft, Languages } from "lucide-react";
 import Image from "next/image";
+import { FormEvent } from "react";
 import { useForm } from "react-hook-form";
 
-interface ChatProps {}
-
-export function Chat({}: ChatProps): JSX.Element {
-  const {
-    mutate,
-    data = "",
-    isPending,
-  } = useMutation({
-    mutationFn: async (values: TranslateFormData) => {
-      try {
-        const response = await translateServer(values);
-
-        return response;
-      } catch (error) {
-        // toast.error(error.message);
-
-        return "";
-      }
-    },
-  });
-
+export function TranslateForm(): JSX.Element {
   const form = useForm<TranslateFormData>({
     resolver: zodResolver(translateFormSchema),
     defaultValues: {
+      from: "pt-br",
       to: "en-us",
-      textToTranslate: "",
+      prompt:
+        "O sol brilhava intensamente no céu azul, iluminando o campo verdejante à minha frente.",
     },
   });
 
   const { handleSubmit, setValue, watch } = form;
 
-  const [from, to] = watch(["from", "to"]);
+  const [from, to, prompt] = watch(["from", "to", "prompt"]);
 
-  async function onHandleSubmit(values: TranslateFormData) {
-    mutate(values);
+  const {
+    completion,
+    setCompletion,
+    handleInputChange,
+    handleSubmit: handleCompletionSubmit,
+    isLoading,
+  } = useCompletion({
+    api: "/api/translate",
+    body: {
+      from,
+      to,
+    },
+  });
+
+  async function onHandleSubmit() {
+    const formEvent = new Event("submit", { bubbles: true, cancelable: true });
+
+    handleCompletionSubmit(formEvent as unknown as FormEvent<HTMLFormElement>);
   }
 
   return (
@@ -119,6 +117,14 @@ export function Chat({}: ChatProps): JSX.Element {
                     onClick={() => {
                       setValue("from", to, { shouldValidate: true });
                       setValue("to", from, { shouldValidate: true });
+
+                      if (prompt) {
+                        setValue("prompt", completion, {
+                          shouldValidate: true,
+                        });
+
+                        setCompletion(prompt);
+                      }
                     }}
                     disabled={!to || !from}
                   />
@@ -126,14 +132,20 @@ export function Chat({}: ChatProps): JSX.Element {
 
                 <FormField
                   control={form.control}
-                  name="textToTranslate"
+                  name="prompt"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <Textarea
+                          {...field}
                           className="h-80 w-full resize-none border-none bg-primary-foreground text-muted-foreground"
                           placeholder="Escreva o texto aqui para tradução"
-                          {...field}
+                          shouldDisplayNumberOfCharacters
+                          limitCharacters={2000}
+                          onChange={(event) => {
+                            handleInputChange(event);
+                            field.onChange(event);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -179,6 +191,7 @@ export function Chat({}: ChatProps): JSX.Element {
                     <Button
                       variant="secondary"
                       icon={<Languages className="size-4" />}
+                      isLoading={isLoading}
                     >
                       Traduzir
                     </Button>
@@ -186,9 +199,11 @@ export function Chat({}: ChatProps): JSX.Element {
                 </div>
 
                 <Textarea
+                  name="result"
+                  id="result"
                   className="h-80 w-full resize-none border-none bg-primary-foreground text-muted-foreground !ring-0"
-                  value={data}
-                  isLoading={isPending}
+                  value={completion}
+                  isLoading={isLoading}
                   readOnly
                 />
 

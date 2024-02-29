@@ -1,22 +1,43 @@
 import { gemini } from "@/lib/gemini";
+import {
+  defaultSafetySettings,
+  mapSafetySettings,
+} from "@/utils/safety-settings-mapper";
+import { translateFormSchema } from "@/validation/translate";
+import { GoogleGenerativeAIStream, StreamingTextResponse } from "ai";
 
 export const runtime = "edge";
 
-export async function POST(req: Request) {
-  const { translate } = await req.json();
+export async function POST(request: Request) {
+  const parseResult = translateFormSchema.safeParse(await request.json());
 
-  const model = gemini.getGenerativeModel({ model: "gemini-pro" });
-  const prompt = `Você sendo um especialista em linguas, dado o texto: "${translate}" na lingua pt-br, traduza-o o mesmo para en-us`;
+  if (!parseResult.success) {
+    return new Response(JSON.stringify({ error: "Invalid request data" }), {
+      status: 400,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
 
-  // Inicia a geração de conteúdo
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = await response.text();
+  const { prompt, from, to } = parseResult.data;
 
-  // Retorna o texto como uma string dentro de uma resposta
-  return new Response(text, {
-    headers: {
-      "Content-Type": "text/plain",
-    },
-  });
+  const prompts = `Você sendo um especialista em linguas, dado o texto: "${prompt}" na lingua ${from}, traduza-o o mesmo para ${to}`;
+
+  const mappedSafetySettings = mapSafetySettings(defaultSafetySettings);
+
+  const geminiStream = await gemini
+    .getGenerativeModel({
+      model: "gemini-pro",
+      safetySettings: mappedSafetySettings,
+      generationConfig: {
+        maxOutputTokens: 2000,
+        temperature: 0.7,
+      },
+    })
+    .generateContentStream([prompts]);
+
+  const stream = GoogleGenerativeAIStream(geminiStream);
+
+  return new StreamingTextResponse(stream);
 }
