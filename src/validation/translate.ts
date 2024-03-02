@@ -2,40 +2,67 @@ import { z } from "zod";
 
 export const languages = [
   {
-    key: "pt-br",
-    label: "Português",
+    key: "de",
+    label: "Alemão",
   },
   {
-    key: "en-us",
-    label: "Inglês",
+    key: "zh",
+    label: "Chinês (Simplificado)",
   },
   {
-    key: "fr",
-    label: "Francês",
+    key: "ko",
+    label: "Coreano",
+  },
+  {
+    key: "da",
+    label: "Dinamarquês",
   },
   {
     key: "es",
     label: "Espanhol",
   },
   {
-    key: "de",
-    label: "Alemão",
+    key: "fi",
+    label: "Finlandês",
   },
   {
-    key: "zh-cn",
-    label: "Chinês Simplificado",
+    key: "fr",
+    label: "Francês",
+  },
+  {
+    key: "el",
+    label: "Grego",
+  },
+  {
+    key: "nl",
+    label: "Holandês",
+  },
+  {
+    key: "en-us",
+    label: "Inglês ( Americano )",
+  },
+  {
+    key: "it",
+    label: "Italiano",
   },
   {
     key: "ja",
     label: "Japonês",
   },
   {
-    key: "ko",
-    label: "Coreano",
+    key: "pt-br",
+    label: "Português",
+  },
+  {
+    key: "ru",
+    label: "Russo",
+  },
+  {
+    key: "sv",
+    label: "Sueco",
   },
 ];
 
-// Função para criar um schema enum com base em um array de valores
 const createEnumSchema = (values: any) =>
   z.enum(values, {
     required_error: "Selecione um item!",

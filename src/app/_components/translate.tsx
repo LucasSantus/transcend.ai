@@ -125,7 +125,7 @@ export function TranslateForm(): JSX.Element {
                         setCompletion(prompt);
                       }
                     }}
-                    disabled={!to || !from}
+                    disabled={!to || !from || !prompt}
                   />
                 </div>
 

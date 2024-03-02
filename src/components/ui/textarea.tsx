@@ -45,7 +45,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
 
         {shouldDisplayMaxCounter && (
-          <div className="flex justify-end p-1">
+          <div className="absolute bottom-2 right-3">
             {limitCharacters !== 0 ? (
               <span className="text-xs">
                 {value?.length}/{limitCharacters}
