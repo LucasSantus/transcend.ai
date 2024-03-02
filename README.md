@@ -23,8 +23,6 @@ _"Create a related simple project language translation using AI. With the aim of
 
 <h3 id="tecnologies">:rocket: Tecnologies</h3>
 
-Used tools:
-
 - [NextJS v14.1.1](https://nextjs.org/)
 - [Eslint v8.57.0](https://github.com/eslint/eslint)
 - [Lucide React v0.344.0](https://lucide.dev/)
