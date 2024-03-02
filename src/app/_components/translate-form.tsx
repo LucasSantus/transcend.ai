@@ -16,11 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  TranslateFormData,
-  languages,
-  translateFormSchema,
-} from "@/validation/translate";
+import { languages } from "@/contants/languages";
+import { TranslateFormData, translateFormSchema } from "@/validation/translate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCompletion } from "ai/react";
 import { ArrowRightLeft, Languages } from "lucide-react";
@@ -83,6 +80,7 @@ export function TranslateForm(): JSX.Element {
                     render={({ field }) => (
                       <FormItem className="flex flex-col truncate md:flex-row md:items-end md:gap-2">
                         <Select
+                          disabled={isLoading}
                           onValueChange={field.onChange}
                           value={field.value}
                         >
@@ -161,7 +159,14 @@ export function TranslateForm(): JSX.Element {
                     render={({ field }) => (
                       <FormItem className="flex items-end gap-2 truncate">
                         <Select
-                          onValueChange={field.onChange}
+                          disabled={isLoading}
+                          onValueChange={(value) => {
+                            field.onChange(value);
+
+                            if (to && prompt) {
+                              onHandleSubmit();
+                            }
+                          }}
                           value={field.value}
                         >
                           <FormControl>

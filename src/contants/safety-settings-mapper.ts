@@ -2,7 +2,7 @@
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 
 export const mapSafetyValueToThreshold = (
-  value: number
+  value: number,
 ): HarmBlockThreshold => {
   switch (value) {
     case 0:
@@ -26,7 +26,7 @@ export const defaultSafetySettings = {
 };
 
 export const mapSafetySettings = (
-  safetySettings: typeof defaultSafetySettings
+  safetySettings: typeof defaultSafetySettings,
 ) => [
   {
     category: HarmCategory.HARM_CATEGORY_HARASSMENT,

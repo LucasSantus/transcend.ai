@@ -7,14 +7,16 @@ export const envSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
 
-  // DATABASE
+  // GEMINI AI
   GEMINI_AI_API_KEY: z.string(),
 });
 
 const envParsed = envSchema.safeParse(process.env);
 
 if (!envParsed.success) {
-  console.log("Oops, there was a problem loading the environment variables!");
+  console.log(
+    "Oops, Ocorreu um problema ao tentar carregar as variaveis de ambiente!",
+  );
   console.error(envParsed.error.issues);
   process.exit(1);
 }

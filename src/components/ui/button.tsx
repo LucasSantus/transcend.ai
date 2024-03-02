@@ -69,11 +69,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-disabled={isDisabled}
         {...rest}
       >
-        {isLoading ? (
-          <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          icon
-        )}{" "}
+        {isLoading ? <Loader2Icon className="size-4 animate-spin" /> : icon}
         {children}
       </Component>
     );

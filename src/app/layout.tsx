@@ -9,9 +9,32 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Transcend AI",
+  authors: [{ name: "Lucas Santos", url: "https://github.com/LucasSantus" }],
+  category: "developer",
+  creator: "Lucas Santos",
+  title: {
+    default: "Transcend AI",
+    template: "%s · Transcend AI",
+  },
   description:
     "Transcend AI is a straightforward yet powerful application that utilizes cutting-edge artificial intelligence to translate text quickly and accurately. Boasting an easy-to-use interface, Transcend AI makes translating between different languages accessible to all, allowing for seamless global communication.",
+  keywords: [
+    "Lucas Santos",
+    "Transcend",
+    "Transcend AI",
+    "Ai",
+    "Translator",
+    "Frontend",
+    "UX Design",
+    "Software",
+    "Brazil",
+    "Vercel",
+    "Next.js",
+    "React",
+    "TypeScript",
+    "TailwindCSS",
+  ],
+  publisher: "Lucas Santos",
 };
 
 export default function RootLayout({

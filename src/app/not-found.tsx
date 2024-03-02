@@ -1,5 +1,11 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Not Found",
+  description: "The route you're trying to access doesn't exist.",
+};
 
 export default function NotFound() {
   return (

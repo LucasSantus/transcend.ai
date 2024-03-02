@@ -1,8 +1,8 @@
-import { gemini } from "@/lib/gemini";
 import {
   defaultSafetySettings,
   mapSafetySettings,
-} from "@/utils/safety-settings-mapper";
+} from "@/contants/safety-settings-mapper";
+import { gemini } from "@/lib/gemini";
 import { translateFormSchema } from "@/validation/translate";
 import { GoogleGenerativeAIStream, StreamingTextResponse } from "ai";
 
@@ -21,8 +21,6 @@ export async function POST(request: Request) {
   }
 
   const { prompt, from, to } = parseResult.data;
-
-  // const prompts = `Você sendo um especialista em linguas, dado o texto: "${prompt}" na lingua ${from}, traduza-o o mesmo para ${to}`;
 
   const prompts = `
     Você sendo um especialista em linguas do mundo todo, Tendo o seguinte texto: ${prompt} que se encontra escrito na linguagem ${from}, traduza esse texto para a linguagem ${to}.
