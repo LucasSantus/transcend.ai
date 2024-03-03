@@ -54,9 +54,9 @@ export function TranslateForm(): JSX.Element {
   });
 
   async function onHandleSubmit() {
-    const formEvent = new Event("submit", { bubbles: true, cancelable: true });
+    const event = new Event("submit", { bubbles: true, cancelable: true });
 
-    handleCompletionSubmit(formEvent as unknown as FormEvent<HTMLFormElement>);
+    handleCompletionSubmit(event as unknown as FormEvent<HTMLFormElement>);
   }
 
   return (
@@ -115,7 +115,7 @@ export function TranslateForm(): JSX.Element {
                       setValue("from", to, { shouldValidate: true });
                       setValue("to", from, { shouldValidate: true });
 
-                      if (prompt) {
+                      if (prompt && completion) {
                         setValue("prompt", completion, {
                           shouldValidate: true,
                         });
@@ -123,7 +123,7 @@ export function TranslateForm(): JSX.Element {
                         setCompletion(prompt);
                       }
                     }}
-                    disabled={!to || !from || !prompt}
+                    disabled={!to || !from || !prompt || isLoading}
                   />
                 </div>
 
@@ -136,7 +136,7 @@ export function TranslateForm(): JSX.Element {
                         <Textarea
                           {...field}
                           className="h-80 w-full resize-none border-none bg-primary-foreground text-muted-foreground"
-                          placeholder="Escreva o texto aqui para tradução"
+                          placeholder="Insert text here for translation..."
                           shouldDisplayNumberOfCharacters
                           limitCharacters={2000}
                           onChange={(event) => {
@@ -160,8 +160,8 @@ export function TranslateForm(): JSX.Element {
                       <FormItem className="flex items-end gap-2 truncate">
                         <Select
                           disabled={isLoading}
-                          onValueChange={(value) => {
-                            field.onChange(value);
+                          onValueChange={async (value) => {
+                            await field.onChange(value);
 
                             if (to && prompt) {
                               onHandleSubmit();
@@ -197,7 +197,7 @@ export function TranslateForm(): JSX.Element {
                       icon={<Languages className="size-4" />}
                       isLoading={isLoading}
                     >
-                      Traduzir
+                      Translate
                     </Button>
                   </div>
                 </div>
@@ -215,8 +215,9 @@ export function TranslateForm(): JSX.Element {
                   <Button
                     variant="secondary"
                     icon={<Languages className="size-3" />}
+                    isLoading={isLoading}
                   >
-                    Traduzir
+                    Translate
                   </Button>
                 </div>
               </div>

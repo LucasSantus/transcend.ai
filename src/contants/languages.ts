@@ -1,62 +1,62 @@
 export const languages = [
   {
     key: "de",
-    label: "Alemão",
+    label: "German",
   },
   {
     key: "zh",
-    label: "Chinês (Simplificado)",
+    label: "Chinese (Simplified)",
   },
   {
     key: "ko",
-    label: "Coreano",
+    label: "Korean",
   },
   {
     key: "da",
-    label: "Dinamarquês",
+    label: "Danish",
   },
   {
     key: "es",
-    label: "Espanhol",
+    label: "Spanish",
   },
   {
     key: "fi",
-    label: "Finlandês",
+    label: "Finnish",
   },
   {
     key: "fr",
-    label: "Francês",
+    label: "French",
   },
   {
     key: "el",
-    label: "Grego",
+    label: "Greek",
   },
   {
     key: "nl",
-    label: "Holandês",
+    label: "Dutch",
   },
   {
     key: "en-us",
-    label: "Inglês ( Americano )",
+    label: "English ( American )",
   },
   {
     key: "it",
-    label: "Italiano",
+    label: "Italian",
   },
   {
     key: "ja",
-    label: "Japonês",
+    label: "Japanese",
   },
   {
     key: "pt-br",
-    label: "Português",
+    label: "Portuguese",
   },
   {
     key: "ru",
-    label: "Russo",
+    label: "Russian",
   },
   {
     key: "sv",
-    label: "Sueco",
+    label: "Swedish",
   },
 ];

@@ -13,13 +13,13 @@ export default function ErrorHandling({ error, reset }: ErrorHandlingType) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-5">
       <h2 className="text-center text-sm font-medium text-red-600">
-        Ocorreu um erro inesperado!
+        An unexpected error has occurred!
       </h2>
       <Button
         onClick={() => reset()}
         icon={<RefreshCcwIcon className="size-4" />}
       >
-        Tentar Novamente
+        Try again
       </Button>
     </div>
   );
