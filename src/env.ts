@@ -14,11 +14,13 @@ export const envSchema = z.object({
 const envParsed = envSchema.safeParse(process.env);
 
 if (!envParsed.success) {
-  console.log(
-    "Oops, Ocorreu um problema ao tentar carregar as variaveis de ambiente!",
-  );
+  console.log("Oops, There was a problem loading the environment variables!");
   console.error(envParsed.error.issues);
   process.exit(1);
 }
 
 export const env = envParsed.data;
+
+export function loadEnv() {
+  console.log("Variables loaded successfully!");
+}

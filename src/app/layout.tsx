@@ -1,3 +1,4 @@
+import { loadEnv } from "@/env";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -37,11 +38,13 @@ export const metadata: Metadata = {
   publisher: "Lucas Santos",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await loadEnv();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
