@@ -22,11 +22,7 @@ export async function POST(request: Request) {
 
   const { prompt, from, to } = parseResult.data;
 
-  const prompts = `
-    Você sendo um especialista em linguas do mundo todo, Tendo o seguinte texto: ${prompt} que se encontra escrito na linguagem ${from}, traduza esse texto para a linguagem ${to}.
-
-    Observação: Você deve retornar somente o texto traduzido!
-  `;
+  const prompts = `You being a language expert. You have the following text: ${prompt} written in the language ${from}. You must translate it into the language ${to}. Note: You should only return the translated text as a response!`;
 
   const mappedSafetySettings = mapSafetySettings(defaultSafetySettings);
 
