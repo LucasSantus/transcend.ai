@@ -21,6 +21,16 @@ _"Create a related simple project language translation using AI. With the aim of
 
 ---
 
+<h3 id="why">:question: Why</h3>
+
+This project is part of my personal portfolio, I will be happy if you provide some feedback, code, structure, functionality or any feature&improvement you can report to improve it.
+
+You can use this project however you want, whether it's for studying, making improvements, you call the shots!
+
+This is a totally free project!
+
+---
+
 <h3 id="tecnologies">:rocket: Tecnologies</h3>
 
 - [NextJS v14.1.1](https://nextjs.org/)
@@ -33,6 +43,12 @@ _"Create a related simple project language translation using AI. With the aim of
 - [AI v3.0.2](https://vercel.com/blog/introducing-the-vercel-ai-sdk)
 - [Next Themes v0.2.1](https://www.npmjs.com/package/next-themes)
 - [React Hook Form v7.51.0](https://react-hook-form.com/)
+
+---
+
+<h3 id="features">:sparkles: Features</h3>
+
+- [x] Translate texts using Gemini AI.
 
 ---
 
