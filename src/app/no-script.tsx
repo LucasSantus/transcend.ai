@@ -15,8 +15,16 @@ export function NoScript(): JSX.Element {
         }
       `}
       </style>
-      <div className="flex h-screen w-full items-center justify-center bg-slate-900 text-2xl text-white">
-        Ative o JavaScript para o sistema funcionar corretamente.
+      <div className="grid h-screen w-screen scroll-smooth bg-background text-foreground antialiased">
+        <div className="flex min-h-screen flex-col items-center justify-center gap-5 p-6 text-center">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl">
+            Enable JavaScript
+          </h1>
+          <p className="mx-auto max-w-prose text-muted-foreground md:text-xl/relaxed">
+            This site requires JavaScript to function properly. Please enable
+            JavaScript in your browser and refresh the page.
+          </p>
+        </div>
       </div>
     </noscript>
   );
