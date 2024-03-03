@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { languages } from "@/contants/languages";
+import { languageEnumValues } from "@/contants/languages";
 import { TranslateFormData, translateFormSchema } from "@/validation/translate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCompletion } from "ai/react";
@@ -90,15 +90,17 @@ export function TranslateForm(): JSX.Element {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {languages.map(({ key, label }) => (
-                              <SelectItem
-                                key={key}
-                                value={key}
-                                disabled={to === key}
-                              >
-                                {label}
-                              </SelectItem>
-                            ))}
+                            {languageEnumValues.map(({ key, label }) => {
+                              return (
+                                <SelectItem
+                                  key={key}
+                                  value={key}
+                                  disabled={to === key}
+                                >
+                                  {label}
+                                </SelectItem>
+                              );
+                            })}
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -175,7 +177,7 @@ export function TranslateForm(): JSX.Element {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {languages.map(({ key, label }) => (
+                            {languageEnumValues.map(({ key, label }) => (
                               <SelectItem
                                 key={key}
                                 value={key}

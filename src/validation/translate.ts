@@ -1,15 +1,10 @@
-import { languages } from "@/contants/languages";
+import { LanguageEnum } from "@/contants/languages";
 import { z } from "zod";
-
-const createEnumSchema = (values: any) =>
-  z.enum(values, {
-    required_error: "Selecione um item!",
-  });
 
 export const translateFormSchema = z
   .object({
-    from: createEnumSchema(languages.map((language) => language.key)),
-    to: createEnumSchema(languages.map((language) => language.key)),
+    from: LanguageEnum,
+    to: LanguageEnum,
     prompt: z
       .string({
         required_error: "Insira o texto para tradução!",
